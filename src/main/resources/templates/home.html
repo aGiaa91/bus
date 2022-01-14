@@ -41,7 +41,7 @@
                     <td th:text="${departure.getDepartureStation}"></td>
                     <td th:text="${departure.getArrivalStation}"></td>
                     <td th:text="${T(java.lang.String).format('%.2f', departure.getPrice)}"></td>
-                    <td th:text="${departure.getAvailableSeats}"></td>
+                    <td th:text="${(departure.getAvailableSeats > 0) ? departure.getAvailableSeats : '/'}"></td>
                     <td th:if="${departure.getAvailableSeats > 0}"><a class="btn btn-info" th:href="@{'/reservation/' + ${departure.id}}">Book</a></td>
                 </tr>
             </tbody>
