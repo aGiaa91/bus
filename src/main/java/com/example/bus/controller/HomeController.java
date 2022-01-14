@@ -56,6 +56,7 @@ public class HomeController {
             dataReservation.setTotalPrice(dataReservation.getPrice() * dataReservation.getNumberOfTickets());
             this.reservationService.save(dataReservation);
             id = dataReservation.getId();
+            dataReservation.getDeparture().setAvailableSeats(seats - dataReservation.getNumberOfTickets());
             this.departureService.save(dataReservation.getDeparture());
             redirectAttributes.addFlashAttribute("message", "Successfully reserved!");
         } else {
