@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>Bus Station</title>
+</head>
+<body>
+    <div class="container" align="center">
+        <h1 class="display-3">Reserve your ticket</h1>
+        <br>
+        <table class="table table-striped table-bordered" id="tableOne">
+            <thead style="background-color: #FFC107; color: white">
+            <tr>
+                <th>Date</th>
+                <th>Company</th>
+                <th>Departure time</th>
+                <th>Arrival time</th>
+                <th>Departure station</th>
+                <th>Arrival station</th>
+                <th>Price</th>
+                <th>Available seats</th>
+            </tr>
+            </thead>
+            <tbody class="table-sm" id="data">
+            <tr>
+                <td th:text="${#temporals.format(departure.getDateOfDeparture, 'MMMM d, yyyy')}"></td>
+                <td th:text="${departure.company.getName}"></td>
+                <td th:text="${{departure.getTimeOfDeparture}}"></td>
+                <td th:text="${#temporals.format(departure.getTimeOfArrival, 'HH:mm')}"></td>
+                <td th:text="${departure.getDepartureStation}"></td>
+                <td th:text="${departure.getArrivalStation}"></td>
+                <td th:text="${T(java.lang.String).format('%.2f', departure.getPrice)}"></td>
+                <td th:text="${departure.getAvailableSeats}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <div class="alert alert-danger alert-dismissible" role="alert" th:text="${message}" th:if="${message}">
+
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <br>
+        <form th:action="@{/reserved}" th:object="${dataReservation}" method="post">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="firstName">First name</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First name">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="lastName">Last name</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last name">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="numberOfTicket">Tickets</label>
+                    <input type="number" name="numberOfTickets" class="form-control prices" id="numberOfTicket" value="1" min="1" th:max="${departure.availableSeats}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="price">Price</label>
+                    <input type="text" disabled class="form-control" id="price" name="price" th:value="${T(java.lang.String).format('%.2f', departure.price)}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="totalPrice">Total price</label>
+                    <input type="text" disabled class="form-control" th:value="${T(java.lang.String).format('%.2f', departure.price)}" id="totalPrice" name="totalPrice">
+                </div>
+                <input type="text" id="ticketPrice" th:value="${T(java.lang.String).format('%.2f', departure.price)}" hidden/>
+                <input type="text" th:value="${departure.getId}" name="departure" hidden/>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <div class="form-check">
+                        <input class="form-check-input prices" type="checkbox" name="returnTicket" id="returnTicket">
+                        <label class="form-check-label" for="returnTicket">
+                            Return ticket
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-info">Confirm</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script th:src="@{/reservation.js}"></script>
+</body>
+</html>
