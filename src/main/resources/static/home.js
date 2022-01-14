@@ -21,7 +21,7 @@ $(document).ready(function() {
                         <td>${departure.departureStation}</td>
                         <td>${departure.arrivalStation}</td>
                         <td>${departure.price.toFixed(2)}</td>
-                        <td>${departure.availableSeats}</td>`;
+                        <td>${(departure.availableSeats > 0) ? departure.availableSeats : '/'}</td>`;
                         if(departure.availableSeats > 0) {
                             str += `<td><a class="btn btn-info" href="/reservation/${departure.id}">Book</a></td>`;
                         }
