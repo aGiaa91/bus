@@ -10,7 +10,7 @@
         <h1 class="display-3">Reserve your ticket</h1>
         <br>
         <select class="custom-select" id="companyId" name="company">
-            <option value="-1">Choose company:</option>
+            <option value="-1">All companies</option>
             <option th:each="company : ${companies}"
                     th:value="${company.id}"
                     th:text="${company.name}">
